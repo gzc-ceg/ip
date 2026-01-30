@@ -13,7 +13,7 @@ public class Bruno {
         System.out.println("    What can I do for you?");
 
         Scanner scanner = new Scanner(System.in);
-        String[] tasks = new String[100];
+        Task[] tasks = new Task[100];
         int taskCount = 0;
 
         while (true) {
@@ -28,12 +28,23 @@ public class Bruno {
                 if (taskCount == 0) {
                     System.out.println("    Your list is empty! Please first add some tasks!");
                 } else {
+                    System.out.println("    Here are the tasks in your list:");
                     for (int i = 0; i < taskCount; i++) {
-                        System.out.println("    "+(i + 1) + ". " + tasks[i]);
+                        System.out.println("    " + (i + 1) + '.' + tasks[i]);
                     }
                 }
-            } else {
-                tasks[taskCount] = userInput;
+            } else if (userInput.startsWith("mark ")) {
+                int index = Integer.parseInt(userInput.substring(5).trim()) - 1;
+                tasks[index].markAsDone();
+                System.out.println("    Nice! I've marked this task as done:");
+                System.out.println("    " + tasks[index]);
+            } else if (userInput.startsWith("unmark ")) {
+                int index = Integer.parseInt(userInput.substring(7).trim()) - 1;
+                tasks[index].markAsNotDone();
+                System.out.println("    OK, I've marked this task as not done yet:");
+                System.out.println("    " + tasks[index]);
+            } else if (!userInput.isEmpty()) {
+                tasks[taskCount] = new Task(userInput);
                 taskCount++;
                 System.out.println("    added: " + userInput);
             }
