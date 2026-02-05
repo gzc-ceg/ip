@@ -9,7 +9,7 @@ public class Bruno {
                         "| |_) |  _ <| |_| | |\\  | |_| | \n" +
                         "|____/|_| \\_\\\\___/|_| \\_| ____| \n";
         System.out.println("    Hello from\n" + logo);
-        System.out.println("    Hello! I am Bruno, your personl assistant!");
+        System.out.println("    Hello! I am Bruno, your personal assistant!");
         System.out.println("    What can I do for you?");
 
         Scanner scanner = new Scanner(System.in);
