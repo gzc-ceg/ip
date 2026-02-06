@@ -30,74 +30,107 @@ public class Bruno {
             switch (command) {
 
             case "bye":
-                System.out.println("    Bye! Hope to see you again!");
-                System.out.println("    Remember, Bruno is always here for you!");
-                scanner.close();
+                handleBye(scanner);
                 return;
 
             case "list":
-                if (taskCount == 0) {
-                    System.out.println("    Your list is empty! Please first add some tasks!");
-                } else {
-                    System.out.println("    Here are the tasks in your list:");
-                    for (int i = 0; i < taskCount; i++) {
-                        System.out.println("    " + (i + 1) + '.' + tasks[i]);
-                    }
-                }
+                handleList(tasks, taskCount);
                 break;
 
             case "mark":
-                int markIndex = Integer.parseInt(parts[1].trim()) - 1;
-                tasks[markIndex].markAsDone();
-                System.out.println("    Nice! I've marked this task as done:");
-                System.out.println("    " + tasks[markIndex]);
+                taskCount = handleMark(parts, tasks, taskCount);
                 break;
 
             case "unmark":
-                int unmarkIndex = Integer.parseInt(parts[1].trim()) - 1;
-                tasks[unmarkIndex].markAsNotDone();
-                System.out.println("    OK, I've marked this task as not done yet:");
-                System.out.println("    " + tasks[unmarkIndex]);
+                taskCount = handleUnmark(parts, tasks, taskCount);
                 break;
 
             case "todo":
-                System.out.println("    Got it. I've added this task:");
-                tasks[taskCount] = new Todo(parts[1]);
-                taskCount++;
-                System.out.println("      " + tasks[taskCount - 1]);
-                if (taskCount == 1) {
-                    System.out.println("    Now you have 1 task in the list.");
-                } else {
-                    System.out.println("    Now you have " + taskCount + " tasks in the list.");
-                }
+                taskCount = handleTodo(parts, tasks, taskCount);
                 break;
 
             case "deadline":
-                System.out.println("    Got it. I've added this task:");
-                String[] parts_deadline = parts[1].split("/by", 2);
-                tasks[taskCount] = new Deadline(parts_deadline[0], parts_deadline[1]);
-                taskCount++;
-                System.out.println("      " + tasks[taskCount - 1]);
-                if (taskCount == 1) {
-                    System.out.println("    Now you have 1 task in the list.");
-                } else {
-                    System.out.println("    Now you have " + taskCount + " tasks in the list.");
-                }
+                taskCount = handleDeadline(parts, tasks, taskCount);
                 break;
 
             case "event":
-                System.out.println("    Got it. I've added this task:");
-                String[] parts_event = parts[1].split("/from|/to");
-                tasks[taskCount] = new Event(parts_event[0], parts_event[1], parts_event[2]);
-                taskCount++;
-                System.out.println("      " + tasks[taskCount - 1]);
-                if (taskCount == 1) {
-                    System.out.println("    Now you have 1 task in the list.");
-                } else {
-                    System.out.println("    Now you have " + taskCount + " tasks in the list.");
-                }
+                taskCount = handleEvent(parts, tasks, taskCount);
                 break;
             }
         }
+    }
+
+    private static void handleBye(Scanner scanner) {
+        System.out.println("    Bye! Hope to see you again!");
+        System.out.println("    Remember, Bruno is always here for you!");
+        scanner.close();
+    }
+
+    private static void handleList(Task[] tasks, int taskCount) {
+        if (taskCount == 0) {
+            System.out.println("    Your list is empty! Please first add some tasks!");
+        } else {
+            System.out.println("    Here are the tasks in your list:");
+            for (int i = 0; i < taskCount; i++) {
+                System.out.println("    " + (i + 1) + '.' + tasks[i]);
+            }
+        }
+    }
+
+    private static int handleMark(String[] parts, Task[] tasks, int taskCount) {
+        int markIndex = Integer.parseInt(parts[1].trim()) - 1;
+        tasks[markIndex].markAsDone();
+        System.out.println("    Nice! I've marked this task as done:");
+        System.out.println("    " + tasks[markIndex]);
+        return taskCount;
+    }
+
+    private static int handleUnmark(String[] parts, Task[] tasks, int taskCount) {
+        int unmarkIndex = Integer.parseInt(parts[1].trim()) - 1;
+        tasks[unmarkIndex].markAsNotDone();
+        System.out.println("    OK, I've marked this task as not done yet:");
+        System.out.println("    " + tasks[unmarkIndex]);
+        return taskCount;
+    }
+
+    private static int handleTodo(String[] parts, Task[] tasks, int taskCount) {
+        System.out.println("    Got it. I've added this task:");
+        tasks[taskCount] = new Todo(parts[1]);
+        taskCount++;
+        System.out.println("      " + tasks[taskCount - 1]);
+        if (taskCount == 1) {
+            System.out.println("    Now you have 1 task in the list.");
+        } else {
+            System.out.println("    Now you have " + taskCount + " tasks in the list.");
+        }
+        return taskCount;
+    }
+
+    private static int handleDeadline(String[] parts, Task[] tasks, int taskCount) {
+        System.out.println("    Got it. I've added this task:");
+        String[] parts_deadline = parts[1].split("/by", 2);
+        tasks[taskCount] = new Deadline(parts_deadline[0], parts_deadline[1]);
+        taskCount++;
+        System.out.println("      " + tasks[taskCount - 1]);
+        if (taskCount == 1) {
+            System.out.println("    Now you have 1 task in the list.");
+        } else {
+            System.out.println("    Now you have " + taskCount + " tasks in the list.");
+        }
+        return taskCount;
+    }
+
+    private static int handleEvent(String[] parts, Task[] tasks, int taskCount) {
+        System.out.println("    Got it. I've added this task:");
+        String[] parts_event = parts[1].split("/from|/to");
+        tasks[taskCount] = new Event(parts_event[0], parts_event[1], parts_event[2]);
+        taskCount++;
+        System.out.println("      " + tasks[taskCount - 1]);
+        if (taskCount == 1) {
+            System.out.println("    Now you have 1 task in the list.");
+        } else {
+            System.out.println("    Now you have " + taskCount + " tasks in the list.");
+        }
+        return taskCount;
     }
 }
