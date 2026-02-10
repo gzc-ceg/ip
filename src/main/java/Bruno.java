@@ -149,10 +149,31 @@ public class Bruno {
         return taskCount;
     }
 
-    private static int handleEvent(String[] parts, Task[] tasks, int taskCount) {
+    private static int handleEvent(String[] parts, Task[] tasks, int taskCount) throws BrunoException {
+        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+            throw new BrunoException("The description of an event cannot be empty.");
+        }
+
+        String input = parts[1].trim();
+        String[] eventParts = input.split("/from|/to");
+
+        if (eventParts.length < 3) {
+            throw new BrunoException("Invalid event format. Please use: event [description] /from [start] /to [end]");
+        }
+
+        String description = eventParts[0].trim();
+        String from = eventParts[1].trim();
+        String to = eventParts[2].trim();
+
+        if (description.isEmpty()) {
+            throw new BrunoException("Event description cannot be empty.");
+        }
+        if (from.isEmpty() || to.isEmpty()) {
+            throw new BrunoException("Event start and end times cannot be empty.");
+        }
+
         System.out.println("    Got it. I've added this task:");
-        String[] parts_event = parts[1].split("/from|/to");
-        tasks[taskCount] = new Event(parts_event[0], parts_event[1], parts_event[2]);
+        tasks[taskCount] = new Event(description, from, to);
         taskCount++;
         System.out.println("      " + tasks[taskCount - 1]);
         if (taskCount == 1) {
