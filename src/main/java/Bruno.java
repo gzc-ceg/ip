@@ -99,7 +99,10 @@ public class Bruno {
         return taskCount;
     }
 
-    private static int handleTodo(String[] parts, Task[] tasks, int taskCount) {
+    private static int handleTodo(String[] parts, Task[] tasks, int taskCount) throws BrunoException {
+        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+            throw new BrunoException("The description of a todo cannot be empty.");
+        }
         System.out.println("    Got it. I've added this task:");
         tasks[taskCount] = new Todo(parts[1]);
         taskCount++;
