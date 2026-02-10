@@ -83,19 +83,55 @@ public class Bruno {
         }
     }
 
-    private static int handleMark(String[] parts, Task[] tasks, int taskCount) {
-        int markIndex = Integer.parseInt(parts[1].trim()) - 1;
-        tasks[markIndex].markAsDone();
-        System.out.println("    Nice! I've marked this task as done:");
-        System.out.println("    " + tasks[markIndex]);
+    private static int handleMark(String[] parts, Task[] tasks, int taskCount) throws BrunoException {
+        if (parts.length < 2) {
+            throw new BrunoException("Please specify a task number to mark.");
+        }
+
+        try {
+            int markIndex = Integer.parseInt(parts[1].trim()) - 1;
+
+            if (markIndex < 0 || markIndex >= taskCount) {
+                if (taskCount == 0) {
+                    throw new BrunoException("Your list is empty! There are no tasks to mark.");
+                } else {
+                    throw new BrunoException("Task number must be between 1 and " + taskCount + ".");
+                }
+            }
+
+            tasks[markIndex].markAsDone();
+            System.out.println("    Nice! I've marked this task as done:");
+            System.out.println("    " + tasks[markIndex]);
+        } catch (NumberFormatException e) {
+            throw new BrunoException("Please provide a valid task number.");
+        }
+
         return taskCount;
     }
 
-    private static int handleUnmark(String[] parts, Task[] tasks, int taskCount) {
-        int unmarkIndex = Integer.parseInt(parts[1].trim()) - 1;
-        tasks[unmarkIndex].markAsNotDone();
-        System.out.println("    OK, I've marked this task as not done yet:");
-        System.out.println("    " + tasks[unmarkIndex]);
+    private static int handleUnmark(String[] parts, Task[] tasks, int taskCount) throws BrunoException {
+        if (parts.length < 2) {
+            throw new BrunoException("Please specify a task number to unmark.");
+        }
+
+        try {
+            int unmarkIndex = Integer.parseInt(parts[1].trim()) - 1;
+
+            if (unmarkIndex < 0 || unmarkIndex >= taskCount) {
+                if (taskCount == 0) {
+                    throw new BrunoException("Your list is empty! There are no tasks to unmark.");
+                } else {
+                    throw new BrunoException("Task number must be between 1 and " + taskCount + ".");
+                }
+            }
+
+            tasks[unmarkIndex].markAsNotDone();
+            System.out.println("    OK, I've marked this task as not done yet:");
+            System.out.println("    " + tasks[unmarkIndex]);
+        } catch (NumberFormatException e) {
+            throw new BrunoException("Please provide a valid task number.");
+        }
+
         return taskCount;
     }
 
