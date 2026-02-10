@@ -115,10 +115,30 @@ public class Bruno {
         return taskCount;
     }
 
-    private static int handleDeadline(String[] parts, Task[] tasks, int taskCount) {
+    private static int handleDeadline(String[] parts, Task[] tasks, int taskCount) throws BrunoException {
+        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+            throw new BrunoException("The description of a deadline cannot be empty.");
+        }
+
+        String input = parts[1].trim();
+        String[] deadlineParts = input.split("/by", 2);
+
+        if (deadlineParts.length < 2) {
+            throw new BrunoException("Invalid deadline format. Please use: deadline [description] /by [time]");
+        }
+
+        String description = deadlineParts[0].trim();
+        String by = deadlineParts[1].trim();
+
+        if (description.isEmpty()) {
+            throw new BrunoException("Deadline description cannot be empty.");
+        }
+        if (by.isEmpty()) {
+            throw new BrunoException("Deadline time cannot be empty.");
+        }
+
         System.out.println("    Got it. I've added this task:");
-        String[] parts_deadline = parts[1].split("/by", 2);
-        tasks[taskCount] = new Deadline(parts_deadline[0], parts_deadline[1]);
+        tasks[taskCount] = new Deadline(description, by);
         taskCount++;
         System.out.println("      " + tasks[taskCount - 1]);
         if (taskCount == 1) {
