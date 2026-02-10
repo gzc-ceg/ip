@@ -62,6 +62,12 @@ public class Bruno {
                 }
             } catch (BrunoException e) {
                 System.out.println("    OOPS!!! " + e.getMessage());
+            }catch (NumberFormatException e) {
+                System.out.println("    OOPS!!! Please provide a valid task number.");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("    OOPS!!! Something went wrong with the task index. Please try again.");
+            } catch (Exception e) {
+                System.out.println("    OOPS!!! An unexpected error occurred: " + e.getMessage());
             }
         }
     }
