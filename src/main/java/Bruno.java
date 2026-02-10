@@ -27,35 +27,41 @@ public class Bruno {
             String[] parts = userInput.split(" ", 2);
             String command = parts[0].toLowerCase();
 
-            switch (command) {
+            try {
+                switch (command) {
+                case "bye":
+                    handleBye(scanner);
+                    return;
 
-            case "bye":
-                handleBye(scanner);
-                return;
+                case "list":
+                    handleList(tasks, taskCount);
+                    break;
 
-            case "list":
-                handleList(tasks, taskCount);
-                break;
+                case "mark":
+                    taskCount = handleMark(parts, tasks, taskCount);
+                    break;
 
-            case "mark":
-                taskCount = handleMark(parts, tasks, taskCount);
-                break;
+                case "unmark":
+                    taskCount = handleUnmark(parts, tasks, taskCount);
+                    break;
 
-            case "unmark":
-                taskCount = handleUnmark(parts, tasks, taskCount);
-                break;
+                case "todo":
+                    taskCount = handleTodo(parts, tasks, taskCount);
+                    break;
 
-            case "todo":
-                taskCount = handleTodo(parts, tasks, taskCount);
-                break;
+                case "deadline":
+                    taskCount = handleDeadline(parts, tasks, taskCount);
+                    break;
 
-            case "deadline":
-                taskCount = handleDeadline(parts, tasks, taskCount);
-                break;
+                case "event":
+                    taskCount = handleEvent(parts, tasks, taskCount);
+                    break;
 
-            case "event":
-                taskCount = handleEvent(parts, tasks, taskCount);
-                break;
+                default:
+                    throw new BrunoException("I'm sorry, but I don't know what that means :-(");
+                }
+            } catch (BrunoException e) {
+                System.out.println("    OOPS!!! " + e.getMessage());
             }
         }
     }
