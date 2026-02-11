@@ -27,35 +27,47 @@ public class Bruno {
             String[] parts = userInput.split(" ", 2);
             String command = parts[0].toLowerCase();
 
-            switch (command) {
+            try {
+                switch (command) {
+                case "bye":
+                    handleBye(scanner);
+                    return;
 
-            case "bye":
-                handleBye(scanner);
-                return;
+                case "list":
+                    handleList(tasks, taskCount);
+                    break;
 
-            case "list":
-                handleList(tasks, taskCount);
-                break;
+                case "mark":
+                    taskCount = handleMark(parts, tasks, taskCount);
+                    break;
 
-            case "mark":
-                taskCount = handleMark(parts, tasks, taskCount);
-                break;
+                case "unmark":
+                    taskCount = handleUnmark(parts, tasks, taskCount);
+                    break;
 
-            case "unmark":
-                taskCount = handleUnmark(parts, tasks, taskCount);
-                break;
+                case "todo":
+                    taskCount = handleTodo(parts, tasks, taskCount);
+                    break;
 
-            case "todo":
-                taskCount = handleTodo(parts, tasks, taskCount);
-                break;
+                case "deadline":
+                    taskCount = handleDeadline(parts, tasks, taskCount);
+                    break;
 
-            case "deadline":
-                taskCount = handleDeadline(parts, tasks, taskCount);
-                break;
+                case "event":
+                    taskCount = handleEvent(parts, tasks, taskCount);
+                    break;
 
-            case "event":
-                taskCount = handleEvent(parts, tasks, taskCount);
-                break;
+                default:
+                    throw new BrunoException("I'm sorry, but I don't know what that means :-(");
+                }
+            } catch (BrunoException e) {
+                System.out.println("    OOPS!!! " + e.getMessage());
+            }catch (NumberFormatException e) {
+                System.out.println("    OOPS!!! Please provide a valid task number.");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("    OOPS!!! Something went wrong with the task index. Please try again.");
+            } catch (Exception e) {
+                System.out.println("    OOPS!!! An unexpected error occurred: " + e.getMessage());
             }
         }
     }
@@ -77,23 +89,62 @@ public class Bruno {
         }
     }
 
-    private static int handleMark(String[] parts, Task[] tasks, int taskCount) {
-        int markIndex = Integer.parseInt(parts[1].trim()) - 1;
-        tasks[markIndex].markAsDone();
-        System.out.println("    Nice! I've marked this task as done:");
-        System.out.println("    " + tasks[markIndex]);
+    private static int handleMark(String[] parts, Task[] tasks, int taskCount) throws BrunoException {
+        if (parts.length < 2) {
+            throw new BrunoException("Please specify a task number to mark.");
+        }
+
+        try {
+            int markIndex = Integer.parseInt(parts[1].trim()) - 1;
+
+            if (markIndex < 0 || markIndex >= taskCount) {
+                if (taskCount == 0) {
+                    throw new BrunoException("Your list is empty! There are no tasks to mark.");
+                } else {
+                    throw new BrunoException("Task number must be between 1 and " + taskCount + ".");
+                }
+            }
+
+            tasks[markIndex].markAsDone();
+            System.out.println("    Nice! I've marked this task as done:");
+            System.out.println("    " + tasks[markIndex]);
+        } catch (NumberFormatException e) {
+            throw new BrunoException("Please provide a valid task number.");
+        }
+
         return taskCount;
     }
 
-    private static int handleUnmark(String[] parts, Task[] tasks, int taskCount) {
-        int unmarkIndex = Integer.parseInt(parts[1].trim()) - 1;
-        tasks[unmarkIndex].markAsNotDone();
-        System.out.println("    OK, I've marked this task as not done yet:");
-        System.out.println("    " + tasks[unmarkIndex]);
+    private static int handleUnmark(String[] parts, Task[] tasks, int taskCount) throws BrunoException {
+        if (parts.length < 2) {
+            throw new BrunoException("Please specify a task number to unmark.");
+        }
+
+        try {
+            int unmarkIndex = Integer.parseInt(parts[1].trim()) - 1;
+
+            if (unmarkIndex < 0 || unmarkIndex >= taskCount) {
+                if (taskCount == 0) {
+                    throw new BrunoException("Your list is empty! There are no tasks to unmark.");
+                } else {
+                    throw new BrunoException("Task number must be between 1 and " + taskCount + ".");
+                }
+            }
+
+            tasks[unmarkIndex].markAsNotDone();
+            System.out.println("    OK, I've marked this task as not done yet:");
+            System.out.println("    " + tasks[unmarkIndex]);
+        } catch (NumberFormatException e) {
+            throw new BrunoException("Please provide a valid task number.");
+        }
+
         return taskCount;
     }
 
-    private static int handleTodo(String[] parts, Task[] tasks, int taskCount) {
+    private static int handleTodo(String[] parts, Task[] tasks, int taskCount) throws BrunoException {
+        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+            throw new BrunoException("The description of a todo cannot be empty.");
+        }
         System.out.println("    Got it. I've added this task:");
         tasks[taskCount] = new Todo(parts[1]);
         taskCount++;
@@ -106,10 +157,30 @@ public class Bruno {
         return taskCount;
     }
 
-    private static int handleDeadline(String[] parts, Task[] tasks, int taskCount) {
+    private static int handleDeadline(String[] parts, Task[] tasks, int taskCount) throws BrunoException {
+        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+            throw new BrunoException("The description of a deadline cannot be empty.");
+        }
+
+        String input = parts[1].trim();
+        String[] deadlineParts = input.split("/by", 2);
+
+        if (deadlineParts.length < 2) {
+            throw new BrunoException("Invalid deadline format. Please use: deadline [description] /by [time]");
+        }
+
+        String description = deadlineParts[0].trim();
+        String by = deadlineParts[1].trim();
+
+        if (description.isEmpty()) {
+            throw new BrunoException("Deadline description cannot be empty.");
+        }
+        if (by.isEmpty()) {
+            throw new BrunoException("Deadline time cannot be empty.");
+        }
+
         System.out.println("    Got it. I've added this task:");
-        String[] parts_deadline = parts[1].split("/by", 2);
-        tasks[taskCount] = new Deadline(parts_deadline[0], parts_deadline[1]);
+        tasks[taskCount] = new Deadline(description, by);
         taskCount++;
         System.out.println("      " + tasks[taskCount - 1]);
         if (taskCount == 1) {
@@ -120,10 +191,31 @@ public class Bruno {
         return taskCount;
     }
 
-    private static int handleEvent(String[] parts, Task[] tasks, int taskCount) {
+    private static int handleEvent(String[] parts, Task[] tasks, int taskCount) throws BrunoException {
+        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+            throw new BrunoException("The description of an event cannot be empty.");
+        }
+
+        String input = parts[1].trim();
+        String[] eventParts = input.split("/from|/to");
+
+        if (eventParts.length < 3) {
+            throw new BrunoException("Invalid event format. Please use: event [description] /from [start] /to [end]");
+        }
+
+        String description = eventParts[0].trim();
+        String from = eventParts[1].trim();
+        String to = eventParts[2].trim();
+
+        if (description.isEmpty()) {
+            throw new BrunoException("Event description cannot be empty.");
+        }
+        if (from.isEmpty() || to.isEmpty()) {
+            throw new BrunoException("Event start and end times cannot be empty.");
+        }
+
         System.out.println("    Got it. I've added this task:");
-        String[] parts_event = parts[1].split("/from|/to");
-        tasks[taskCount] = new Event(parts_event[0], parts_event[1], parts_event[2]);
+        tasks[taskCount] = new Event(description, from, to);
         taskCount++;
         System.out.println("      " + tasks[taskCount - 1]);
         if (taskCount == 1) {
