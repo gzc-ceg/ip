@@ -5,7 +5,7 @@
 | |_) |  _ <| |_| | |\  | |_| | 
 |____/|_| \_\\___/|_| \_| ____| 
 
-    Hello! I am Bruno, your personal assistant!
+    Hello! I am bruno.Bruno, your personal assistant!
     What can I do for you?
     Got it. I've added this task:
       [T][ ] read book
@@ -27,4 +27,4 @@
     2.[D][ ] return book (by: Sunday)
     3.[E][ ] project meeting (from: Monday 2pm to: 4pm)
     Bye! Hope to see you again!
-    Remember, Bruno is always here for you!
+    Remember, bruno.Bruno is always here for you!
