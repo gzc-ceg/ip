@@ -1,3 +1,11 @@
+package bruno;
+
+import bruno.exception.BrunoException;
+import bruno.task.Deadline;
+import bruno.task.Event;
+import bruno.task.Task;
+import bruno.task.Todo;
+
 import java.util.Scanner;
 
 public class Bruno {
@@ -9,7 +17,7 @@ public class Bruno {
                         "| |_) |  _ <| |_| | |\\  | |_| | \n" +
                         "|____/|_| \\_\\\\___/|_| \\_| ____| \n";
         System.out.println("    Hello from\n" + logo);
-        System.out.println("    Hello! I am Bruno, your personal assistant!");
+        System.out.println("    Hello! I am bruno.Bruno, your personal assistant!");
         System.out.println("    What can I do for you?");
 
         Scanner scanner = new Scanner(System.in);
@@ -74,7 +82,7 @@ public class Bruno {
 
     private static void handleBye(Scanner scanner) {
         System.out.println("    Bye! Hope to see you again!");
-        System.out.println("    Remember, Bruno is always here for you!");
+        System.out.println("    Remember, bruno.Bruno is always here for you!");
         scanner.close();
     }
 
@@ -101,7 +109,7 @@ public class Bruno {
                 if (taskCount == 0) {
                     throw new BrunoException("Your list is empty! There are no tasks to mark.");
                 } else {
-                    throw new BrunoException("Task number must be between 1 and " + taskCount + ".");
+                    throw new BrunoException("bruno.task.Task number must be between 1 and " + taskCount + ".");
                 }
             }
 
@@ -127,7 +135,7 @@ public class Bruno {
                 if (taskCount == 0) {
                     throw new BrunoException("Your list is empty! There are no tasks to unmark.");
                 } else {
-                    throw new BrunoException("Task number must be between 1 and " + taskCount + ".");
+                    throw new BrunoException("bruno.task.Task number must be between 1 and " + taskCount + ".");
                 }
             }
 
@@ -173,10 +181,10 @@ public class Bruno {
         String by = deadlineParts[1].trim();
 
         if (description.isEmpty()) {
-            throw new BrunoException("Deadline description cannot be empty.");
+            throw new BrunoException("bruno.task.Deadline description cannot be empty.");
         }
         if (by.isEmpty()) {
-            throw new BrunoException("Deadline time cannot be empty.");
+            throw new BrunoException("bruno.task.Deadline time cannot be empty.");
         }
 
         System.out.println("    Got it. I've added this task:");
@@ -208,10 +216,10 @@ public class Bruno {
         String to = eventParts[2].trim();
 
         if (description.isEmpty()) {
-            throw new BrunoException("Event description cannot be empty.");
+            throw new BrunoException("bruno.task.Event description cannot be empty.");
         }
         if (from.isEmpty() || to.isEmpty()) {
-            throw new BrunoException("Event start and end times cannot be empty.");
+            throw new BrunoException("bruno.task.Event start and end times cannot be empty.");
         }
 
         System.out.println("    Got it. I've added this task:");
