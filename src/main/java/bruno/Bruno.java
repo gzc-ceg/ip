@@ -72,6 +72,10 @@ public class Bruno {
                     handleEvent(parts, tasks);
                     break;
 
+                case "delete":
+                    handleDelete(parts,tasks);
+                    break;
+
                 default:
                     throw new BrunoException("I'm sorry, but I don't know what that means :-(");
                 }
@@ -211,5 +215,29 @@ public class Bruno {
         System.out.println("      " + t);
         System.out.println("    Now you have " + tasks.size() + " tasks in the list.");
     }
+
+    private static void handleDelete(String[] parts, ArrayList<Task> tasks) throws BrunoException {
+
+        if (parts.length < 2) {
+            throw new BrunoException("Please specify a task number to delete.");
+        }
+
+        int index = Integer.parseInt(parts[1].trim()) - 1;
+
+        if (index < 0 || index >= tasks.size()) {
+            throw new BrunoException("Task number must be between 1 and " + tasks.size() + ".");
+        }
+
+        Task removedTask = tasks.remove(index);
+
+        System.out.println("    Noted. I've removed this task:");
+        System.out.println("      " + removedTask);
+        if(tasks.size()==1){
+            System.out.println("    Now you have 1 task in the list.");
+        }else{
+            System.out.println("    Now you have " + tasks.size() + " tasks in the list.");
+        }
+    }
+
 
 }
