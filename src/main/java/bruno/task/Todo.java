@@ -10,7 +10,4 @@ public class Todo extends Task {
         return "[T]" + super.toString();
     }
 
-    public String getDescription() {
-        return super.getDescription();
-    }
 }

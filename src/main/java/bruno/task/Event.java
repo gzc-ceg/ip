@@ -15,10 +15,6 @@ public class Event extends Task {
         return "[E]" + super.toString().trim() + " (from: " + from.trim() + " to: " + to.trim() + ')';
     }
 
-    public String getDescription() {
-        return super.getDescription();
-    }
-
     public String getFrom() {
         return from;
     }
