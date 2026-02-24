@@ -1,5 +1,6 @@
 package bruno;
 
+import bruno.command.Command;
 import bruno.exception.BrunoException;
 import bruno.task.Task;
 
@@ -27,15 +28,15 @@ public class Bruno {
 
     public void run() {
         ui.showWelcome();
-
         Scanner scanner = new Scanner(System.in);
         boolean isExit = false;
 
         while (!isExit) {
             try {
                 String input = scanner.nextLine();
-                isExit = Parser.parse(input, tasks, ui, storage);
-
+                Command command = Parser.parse(input, tasks);
+                command.execute(tasks, ui, storage);
+                isExit = command.isExit();
             } catch (BrunoException e) {
                 ui.showError(e.getMessage());
             } catch (Exception e) {
