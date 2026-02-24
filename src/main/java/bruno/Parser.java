@@ -56,6 +56,10 @@ public class Parser {
                     eventParts[0].trim(), eventParts[1].trim(), eventParts[2].trim()
             );
 
+        case "find":
+            checkDescription(parts, "Please provide a keyword to search for.");
+            return new FindCommand(parts[1].trim());
+
         default:
             throw new BrunoException(
                     "I'm sorry, but I don't know what that means :-("

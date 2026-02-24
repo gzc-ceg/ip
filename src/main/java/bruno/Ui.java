@@ -61,4 +61,15 @@ public class Ui {
         System.out.println("    OK, I've marked this task as not done yet:");
         System.out.println("    " + task);
     }
+
+    public void showFindResults(ArrayList<Task> matchingTasks) {
+        if (matchingTasks.isEmpty()) {
+            System.out.println("    No tasks matching your keyword were found!");
+            return;
+        }
+        System.out.println("    Here are the matching tasks in your list:");
+        for (int i = 0; i < matchingTasks.size(); i++) {
+            System.out.println("    " + (i + 1) + "." + matchingTasks.get(i));
+        }
+    }
 }
