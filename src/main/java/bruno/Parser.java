@@ -64,16 +64,12 @@ public class Parser {
     }
 
     private static int parseIndex(String[] parts, TaskList tasks) throws BrunoException {
-        if (parts.length < 2) {
-            throw new BrunoException("Please specify a task number.");
-        }
+        if (parts.length < 2) throw new BrunoException("Please specify a task number.");
 
         try {
             int index = Integer.parseInt(parts[1].trim()) - 1;
             if (index < 0 || index >= tasks.size()) {
-                throw new BrunoException(
-                        "Task number must be between 1 and " + tasks.size()
-                );
+                throw new BrunoException("Task number must be between 1 and " + tasks.size());
             }
             return index;
         } catch (NumberFormatException e) {

@@ -4,6 +4,8 @@ import bruno.task.*;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,7 +18,6 @@ public class Storage {
     }
 
     public ArrayList<Task> loadTasks() throws Exception {
-
         File file = new File(filePath);
         file.getParentFile().mkdirs();
 
@@ -28,62 +29,46 @@ public class Storage {
         }
 
         Scanner sc = new Scanner(file);
-
         while (sc.hasNextLine()) {
             Task task = parseLine(sc.nextLine());
-            if (task != null) {
-                tasks.add(task);
-            }
+            if (task != null) tasks.add(task);
         }
-
         sc.close();
         return tasks;
     }
 
     private Task parseLine(String line) {
-
         try {
             String[] parts = line.split(" \\| ");
-
             String type = parts[0];
             boolean isDone = parts[1].equals("1");
             String desc = parts[2];
-
             Task task;
 
             switch (type) {
-
             case "T":
                 task = new Todo(desc);
                 break;
-
             case "D":
-                task = new Deadline(desc, parts[3]);
+                String by = parts[3];
+                task = new Deadline(desc, by);
                 break;
-
             case "E":
-                String[] time = parts[3].split(" to ");
-                task = new Event(desc, time[0], time[1]);
+                String[] times = parts[3].split(" to ");
+                task = new Event(desc, times[0], times[1]);
                 break;
-
             default:
                 return null;
             }
 
-            if (isDone) {
-                task.markAsDone();
-            }
-
+            if (isDone) task.markAsDone();
             return task;
-
         } catch (Exception e) {
-            // skip corrupted line safely
-            return null;
+            return null; // skip corrupted lines safely
         }
     }
 
     public void saveTasks(ArrayList<Task> tasks) throws Exception {
-
         FileWriter fw = new FileWriter(filePath);
 
         for (Task task : tasks) {
@@ -94,7 +79,6 @@ public class Storage {
     }
 
     private String formatTask(Task task) {
-
         String done = task.isDone() ? "1" : "0";
 
         if (task instanceof Todo) {
@@ -102,16 +86,12 @@ public class Storage {
         }
 
         if (task instanceof Deadline d) {
-            return "D | " + done + " | "
-                    + d.getDescription() + " | "
-                    + d.getBy();
+            return "D | " + done + " | " + d.getDescription() + " | " + d.getBy();
         }
 
         if (task instanceof Event e) {
-            return "E | " + done + " | "
-                    + e.getDescription() + " | "
-                    + e.getFrom() + " to "
-                    + e.getTo();
+            return "E | " + done + " | " + e.getDescription() + " | "
+                    + e.getFrom() + " to " + e.getTo();
         }
 
         return "";
