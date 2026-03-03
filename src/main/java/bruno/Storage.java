@@ -9,14 +9,29 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Handles loading and saving tasks to a file.
+ * Manages the persistence layer of the application.
+ */
 public class Storage {
 
     private final String filePath;
 
+    /**
+     * Constructs a Storage object with the given file path.
+     *
+     * @param filePath The path to the file where tasks are stored.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Loads tasks from the storage file. Creates the file and directory if they do not exist.
+     *
+     * @return An ArrayList containing all loaded tasks.
+     * @throws Exception If an I/O error occurs during file creation or reading.
+     */
     public ArrayList<Task> loadTasks() throws Exception {
         File file = new File(filePath);
         file.getParentFile().mkdirs();
@@ -37,6 +52,13 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Parses a single line from the storage file into a Task object.
+     * Silently ignores malformed lines.
+     *
+     * @param line A line from the storage file in the format "type | status | description | extra".
+     * @return The parsed Task object, or null if the line is malformed.
+     */
     private Task parseLine(String line) {
         try {
             String[] parts = line.split(" \\| ");
@@ -68,6 +90,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the current list of tasks to the storage file.
+     *
+     * @param tasks The list of tasks to save.
+     * @throws Exception If an I/O error occurs during writing.
+     */
     public void saveTasks(ArrayList<Task> tasks) throws Exception {
         FileWriter fw = new FileWriter(filePath);
 
@@ -78,6 +106,12 @@ public class Storage {
         fw.close();
     }
 
+    /**
+     * Formats a Task object into a string for storage.
+     *
+     * @param task The Task to format.
+     * @return A string representation of the task suitable for file storage.
+     */
     private String formatTask(Task task) {
         String done = task.isDone() ? "1" : "0";
 

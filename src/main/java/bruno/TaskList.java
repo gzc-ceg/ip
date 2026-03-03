@@ -4,6 +4,10 @@ import bruno.task.Task;
 
 import java.util.ArrayList;
 
+/**
+ * Encapsulates a list of tasks and provides operations to manipulate it.
+ * Serves as the main data structure for managing tasks in the application.
+ */
 public class TaskList {
 
     private ArrayList<Task> tasks;

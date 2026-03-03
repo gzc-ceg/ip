@@ -4,8 +4,19 @@ import bruno.command.*;
 import bruno.exception.BrunoException;
 import bruno.TaskList;
 
+/**
+ * Parses user input strings and converts them into executable Command objects.
+ */
 public class Parser {
 
+    /**
+     * Parses the user input and returns the corresponding Command object.
+     *
+     * @param input The raw user input string.
+     * @param tasks The current task list (used for index validation).
+     * @return A Command object corresponding to the parsed input.
+     * @throws BrunoException If the input is invalid, empty, or cannot be parsed.
+     */
     public static Command parse(String input, TaskList tasks) throws BrunoException {
         if (input == null || input.trim().isEmpty()) {
             throw new BrunoException("Please say something, I am listening...");
@@ -67,6 +78,14 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses a task index from the input parts, validates it, and returns the zero-based index.
+     *
+     * @param parts The input split into command and arguments.
+     * @param tasks The current task list for bounds checking.
+     * @return The zero-based index of the task.
+     * @throws BrunoException If the index is missing, not a number, or out of bounds.
+     */
     private static int parseIndex(String[] parts, TaskList tasks) throws BrunoException {
         if (parts.length < 2) throw new BrunoException("Please specify a task number.");
 
@@ -81,6 +100,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Checks that the input contains a non-empty description after the command.
+     *
+     * @param parts The input split into command and arguments.
+     * @param errorMsg The error message to throw if description is missing.
+     * @throws BrunoException If the description is missing or empty.
+     */
     private static void checkDescription(String[] parts, String errorMsg) throws BrunoException {
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
             throw new BrunoException(errorMsg);

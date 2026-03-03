@@ -5,9 +5,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
+/**
+ * Represents an event task with a start and end time.
+ * The times can be stored as either LocalDates (if parsable) or plain strings.
+ */
 public class Event extends Task {
 
-    /*
+    /**
      * Time can be stored in two ways:
      *
      * 1. If the user inputs a date in the standard format "yyyy-MM-dd" (e.g., 2026-02-14),
@@ -53,6 +57,12 @@ public class Event extends Task {
         return toDate != null ? toDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : toStr;
     }
 
+    /**
+     * Returns a string representation of the event task, including its status icon,
+     * description, and formatted start and end times.
+     *
+     * @return The formatted string representation of the task.
+     */
     @Override
     public String toString() {
         String fromDisplay = fromDate != null

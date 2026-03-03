@@ -5,9 +5,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
+/**
+ * Represents a task with a specific deadline.
+ * The deadline can be stored as either a LocalDate (if parsable) or a plain string.
+ */
 public class Deadline extends Task {
 
-    /*
+    /**
      * Time can be stored in two ways:
      *
      * 1. If the user inputs a date in the standard format "yyyy-MM-dd" (e.g., 2026-02-14),
@@ -33,10 +37,22 @@ public class Deadline extends Task {
         this.byStr = by.trim();
     }
 
+    /**
+     * Returns the deadline in a standard string format.
+     * If stored as a LocalDate, returns "yyyy-MM-dd"; otherwise returns the original string.
+     *
+     * @return The deadline as a string suitable for storage.
+     */
     public String getBy() {
         return byDate != null ? byDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : byStr;
     }
 
+    /**
+     * Returns a string representation of the deadline task, including its status icon,
+     * description, and formatted deadline.
+     *
+     * @return The formatted string representation of the task.
+     */
     @Override
     public String toString() {
         String display = byDate != null
