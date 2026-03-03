@@ -134,18 +134,17 @@ D | 1 | submit report | this sunday
 E | 0 | meeting | 2026-03-10 to 2026-03-11
 ```
 ## Command Summary
-| Command | Format & Example                                                                      | What it does |
-|---------|---------------------------------------------------------------------------------------|--------------|
-| **List all tasks** | `list`                                                                                | Shows all tasks with indexes |
-| **Add a to-do** | `todo DESCRIPTION`<br>Example: `todo Buy milk`                                        | Adds a simple task |
-| **Add a deadline** | `deadline DESCRIPTION /by TIME`<br>Example: `deadline Homework /by 2026-03-20`        | Adds a task with due date/time |
-| **Add an event** | `event DESCRIPTION /from START /to END`<br>Example: `event Meeting /from 2pm /to 4pm` | Adds a task with start & end times |
-| **Mark as done** | `mark INDEX`<br>Example: `mark 1`                                                     | Marks task as completed |
-| **Mark as not done** | `unmark INDEX`<br>Example: `unmark 2`                                                 | Marks task as pending |
-| **Delete a task** | `delete INDEX`<br>Example: `delete 3`                                                 | Removes a task permanently |
-| **Find tasks** | `find KEYWORD`<br>Example: `find book`                                                | Searches task descriptions |
-| **Exit Bruno** | `bye`                                                                                 | Saves tasks and exits |
-
+| Command | Format | Example | What it does |
+|---------|--------|---------|--------------|
+| **List all tasks** | `list` | `list` | Shows all tasks with indexes |
+| **Add a to-do** | `todo DESCRIPTION` | `todo Buy milk` | Adds a simple task |
+| **Add a deadline** | `deadline DESCRIPTION /by TIME` | `deadline Homework /by 2026-03-20` | Adds a task with due date/time |
+| **Add an event** | `event DESCRIPTION /from START /to END` | `event Meeting /from 2pm /to 4pm` | Adds a task with start & end times |
+| **Mark as done** | `mark INDEX` | `mark 1` | Marks task as completed |
+| **Mark as not done** | `unmark INDEX` | `unmark 2` | Marks task as pending |
+| **Delete a task** | `delete INDEX` | `delete 3` | Removes a task permanently |
+| **Find tasks** | `find KEYWORD` | `find book` | Searches task descriptions |
+| **Exit Bruno** | `bye` | `bye` | Saves tasks and exits |
 ## Getting Help
 If you encounter any issues:
 1. Ensure you're using the correct command format
