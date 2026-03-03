@@ -1,0 +1,4 @@
+# docs/_config.yml
+markdown: CommonMarkGhPages
+commonmark:
+  extensions: ["table", "strikethrough", "autolink", "tasklist"]

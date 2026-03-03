@@ -145,6 +145,7 @@ E | 0 | meeting | 2026-03-10 to 2026-03-11
 | **Delete a task** | `delete INDEX` | `delete 3` | Removes a task permanently |
 | **Find tasks** | `find KEYWORD` | `find book` | Searches task descriptions |
 | **Exit Bruno** | `bye` | `bye` | Saves tasks and exits |
+
 ## Getting Help
 If you encounter any issues:
 1. Ensure you're using the correct command format
