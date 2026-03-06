@@ -1,0 +1,4 @@
+T | 0 | read books
+D | 0 | submit report | 2026-03-15
+D | 1 | submit report | this sunday
+E | 0 | meeting | 2026-03-10 to 2026-03-11
